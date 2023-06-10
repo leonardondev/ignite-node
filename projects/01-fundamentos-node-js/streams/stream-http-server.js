@@ -11,11 +11,24 @@ class InverseNumberStream extends Transform {
   }
 }
 
-const server = http.createServer((request, response) => {
+const server = http.createServer(async (request, response) => {
 
-  return request
-    .pipe(new InverseNumberStream())
-    .pipe(response)
+  /* consumindo uma stream completa */
+  const buffers = []
+  for await (const chunk of request) {
+    buffers.push(chunk)
+    console.log(request.complete)
+  }
+  console.log(request.complete)
+
+  const fullStreamContent = Buffer.concat(buffers).toString()
+  console.log(fullStreamContent + ' <- stream completa')
+  return response.end(fullStreamContent)
+
+  /* stream no módulo HTTP com transformação */
+  // return request
+  //   .pipe(new InverseNumberStream())
+  //   .pipe(response)
 })
 
 server.listen(3334)
