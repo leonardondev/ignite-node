@@ -5,13 +5,21 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx --watch src/server.ts",
-    "lint": "eslint --fix src --ext .ts"
+    "lint": "eslint --fix src --ext .ts",
+    "knex": "node --no-warnings --loader tsx ./node_modules/knex/bin/cli.js"
   },
-  "keywords": ["fastify", "eslint", "typescript"],
+  "keywords": [
+    "fastify",
+    "eslint",
+    "typescript",
+    "knex"
+  ],
   "author": "Leonardo do Nascimento",
   "license": "MIT",
   "dependencies": {
-    "fastify": "^4.18.0"
+    "fastify": "^4.18.0",
+    "knex": "^2.4.2",
+    "sqlite3": "^5.1.6"
   },
   "devDependencies": {
     "@rocketseat/eslint-config": "^1.2.0",
