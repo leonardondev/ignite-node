@@ -5,6 +5,10 @@ import { randomUUID } from 'crypto'
 export class InMemoryUsersRepository implements UsersRepository {
   private users: User[] = []
 
+  async findById(id: string) {
+    return this.users.find((user) => user.id === id) ?? null
+  }
+
   async findByEmail(email: string) {
     return this.users.find((user) => user.email === email) ?? null
   }
