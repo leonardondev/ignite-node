@@ -1,6 +1,6 @@
 import { Prisma, User } from '@prisma/client'
 import { UsersRepository } from '../users-repository'
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 
 export class InMemoryUsersRepository implements UsersRepository {
   private users: User[] = []
@@ -20,7 +20,8 @@ export class InMemoryUsersRepository implements UsersRepository {
       name: data.name,
       email: data.email,
       password_hash: data.password_hash,
-    }
+    } as User
+
     this.users.push(newUser)
 
     return newUser
