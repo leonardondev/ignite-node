@@ -1,4 +1,6 @@
-import { Prisma, User } from '@prisma/client'
+import { Prisma, User as PrismaUserModel } from '@prisma/client'
+
+export type User = PrismaUserModel
 
 export interface UsersRepository {
   findById(id: string): Promise<User | null>
