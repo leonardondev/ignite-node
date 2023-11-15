@@ -2,6 +2,8 @@ import { Prisma, CheckIn as PrismaCheckInModel } from '@prisma/client'
 
 export type CheckIn = PrismaCheckInModel
 
+export const PAGE_LENGTH = 20
+
 export interface CheckInsRepository {
   create(data: Prisma.CheckInUncheckedCreateInput): Promise<CheckIn>
 
