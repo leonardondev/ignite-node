@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { CheckInUseCase } from './check-in'
 import { MaxDistanceError } from './errors/max-distance-error'
 import { MaxNumberOfCheckInsError } from './errors/max-number-of-check-ins-error'
+import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
 let checkInsRepository: InMemoryCheckInsRepository
 let gymsRepository: InMemoryGymsRepository
@@ -112,5 +113,16 @@ describe('Check in Use Case', () => {
         userLongitude: -47.969802,
       }),
     ).rejects.toBeInstanceOf(MaxDistanceError)
+  })
+
+  it('should not be able to check in on the inexistent gym id', async () => {
+    await expect(
+      sut.execute({
+        gymId: 'inexistent-gym-id',
+        userId: 'user-01',
+        userLatitude: -21.156981,
+        userLongitude: -47.969802,
+      }),
+    ).rejects.toBeInstanceOf(ResourceNotFoundError)
   })
 })
