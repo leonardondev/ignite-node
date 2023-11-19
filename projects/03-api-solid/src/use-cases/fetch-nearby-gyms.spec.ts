@@ -14,16 +14,12 @@ describe('Fetch Nearby Gyms Use Case', () => {
   it('should be able to fetch nearby gyms', async () => {
     await gymsRepository.create({
       title: 'Near Gym',
-      description: null,
-      phone: '123456789',
       latitude: -21.132794,
       longitude: -47.999288,
     })
 
     await gymsRepository.create({
       title: 'Far Gym',
-      description: null,
-      phone: '123456789',
       latitude: -22.006577,
       longitude: -47.891006,
     })
