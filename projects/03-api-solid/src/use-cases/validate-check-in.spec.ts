@@ -1,15 +1,18 @@
 import { InMemoryCheckInsRepository } from '@/repositories/in-memory/in-memory-check-ins-repository'
+import { DayJsDateService } from '@/services/dayjs/dayjs-date-service'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { LateCheckInValidationError } from './errors/late-check-in-validation-error'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 import { ValidateCheckInUseCase } from './validate-check-in'
 
 let checkInsRepository: InMemoryCheckInsRepository
+let dateService: DayJsDateService
 let sut: ValidateCheckInUseCase
 
 describe('Validate Check-in Use Case', () => {
   beforeEach(async () => {
-    checkInsRepository = new InMemoryCheckInsRepository()
+    dateService = new DayJsDateService()
+    checkInsRepository = new InMemoryCheckInsRepository(dateService)
     sut = new ValidateCheckInUseCase(checkInsRepository)
 
     // gym = await gymsRepository.create({

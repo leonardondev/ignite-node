@@ -1,13 +1,16 @@
 import { InMemoryCheckInsRepository } from '@/repositories/in-memory/in-memory-check-ins-repository'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { FetchUserCheckInsHistoryUseCase } from './fetch-user-check-ins-history'
+import { DayJsDateService } from '@/services/dayjs/dayjs-date-service'
 
 let checkInsRepository: InMemoryCheckInsRepository
+let dateService: DayJsDateService
 let sut: FetchUserCheckInsHistoryUseCase
 
 describe('Fetch User Check-in History Use Case', () => {
   beforeEach(async () => {
-    checkInsRepository = new InMemoryCheckInsRepository()
+    dateService = new DayJsDateService()
+    checkInsRepository = new InMemoryCheckInsRepository(dateService)
     sut = new FetchUserCheckInsHistoryUseCase(checkInsRepository)
   })
 

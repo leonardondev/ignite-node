@@ -1,6 +1,7 @@
 import { Gym } from '@/repositories/gyms-repository'
 import { InMemoryCheckInsRepository } from '@/repositories/in-memory/in-memory-check-ins-repository'
 import { InMemoryGymsRepository } from '@/repositories/in-memory/in-memory-gyms-repository'
+import { DayJsDateService } from '@/services/dayjs/dayjs-date-service'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { CheckInUseCase } from './check-in'
 import { MaxDistanceError } from './errors/max-distance-error'
@@ -10,11 +11,13 @@ import { ResourceNotFoundError } from './errors/resource-not-found-error'
 let checkInsRepository: InMemoryCheckInsRepository
 let gymsRepository: InMemoryGymsRepository
 let sut: CheckInUseCase
+let dateService: DayJsDateService
 let gym: Gym
 
 describe('Check in Use Case', () => {
   beforeEach(async () => {
-    checkInsRepository = new InMemoryCheckInsRepository()
+    dateService = new DayJsDateService()
+    checkInsRepository = new InMemoryCheckInsRepository(dateService)
     gymsRepository = new InMemoryGymsRepository()
     sut = new CheckInUseCase(checkInsRepository, gymsRepository)
 
