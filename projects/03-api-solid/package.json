@@ -7,7 +7,8 @@
     "dev": "tsx watch src/server.ts",
     "start": "node build/server.js",
     "lint": "eslint --fix src --ext .ts",
-    "build": "tsup src --out-dir build",
+    "build": "tsup src --clean --out-dir build",
+    "postbuild": "rimraf -g build/**/*.spec.js",
     "test": "vitest run --dir src/use-cases",
     "test:watch": "vitest --dir src/use-cases",
     "test:create-prisma-environment": "npm link ./prisma/vitest-environment-prisma",
@@ -15,7 +16,7 @@
     "pretest:e2e": "run-s test:create-prisma-environment test:install-prisma-environment",
     "test:e2e": "vitest run --dir src/http",
     "test:e2e:watch": "vitest --dir src/http",
-    "test:coverage": "vitest run --coverage",
+    "test:coverage": "vitest run --dir src --coverage",
     "test:ui": "vitest --ui"
   },
   "keywords": [
@@ -45,6 +46,7 @@
     "eslint": "8.47.0",
     "npm-run-all": "4.1.5",
     "prisma": "5.6.0",
+    "rimraf": "5.0.5",
     "supertest": "6.3.3",
     "tsup": "7.2.0",
     "tsx": "3.12.7",
