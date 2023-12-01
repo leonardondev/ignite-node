@@ -13,7 +13,7 @@ describe('Profile Controller (e2e)', () => {
   })
 
   it.only('should be able to get user profile', async () => {
-    const { token } = await createAndAuthenticateUser(app)
+    const { token } = await createAndAuthenticateUser(app, 'MEMBER')
 
     const profileResponse = await request(app.server)
       .get('/me')
