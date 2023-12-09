@@ -6,13 +6,23 @@
   "engines": {
     "node": ">=18 <19"
   },
-  "scripts": {},
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "lint": "eslint --fix src --ext .ts",
+    "test": "vitest run --dir src/domain/use-cases",
+    "test:watch": "vitest --dir src/domain/use-cases",
+    "test:coverage": "vitest run --dir src --coverage"
+  },
   "keywords": [],
   "author": "Leonardo do Nascimento",
   "license": "MIT",
-  "dependencies": {},
   "devDependencies": {
+    "@rocketseat/eslint-config": "^2.1.0",
     "@types/node": "^20.10.3",
-    "typescript": "^5.3.2"
+    "eslint": "^8.55.0",
+    "tsup": "^8.0.1",
+    "tsx": "^4.6.2",
+    "typescript": "5.1.6",
+    "vitest": "^1.0.1"
   }
 }
