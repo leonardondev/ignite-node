@@ -16,6 +16,9 @@
   "keywords": [],
   "author": "Leonardo do Nascimento",
   "license": "MIT",
+  "dependencies": {
+    "dayjs": "^1.11.10"
+  },
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.1.0",
     "@types/node": "^20.10.3",
