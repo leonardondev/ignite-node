@@ -1,6 +1,7 @@
 {
   "extends": [
-    "@rocketseat/eslint-config/node"
+    "@rocketseat/eslint-config/node",
+    "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
     "no-useless-constructor": "off"

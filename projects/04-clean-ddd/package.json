@@ -8,7 +8,8 @@
   },
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "lint": "eslint --fix src --ext .ts",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint --fix src --ext .ts",
     "test": "vitest run --dir src/domain",
     "test:watch": "vitest --dir src/domain/use-cases",
     "test:coverage": "vitest run --dir src --coverage"
