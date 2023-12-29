@@ -1,15 +1,15 @@
-import { QuestionsRepository } from '@/domain/forum/application/repositories/question-repository'
+import { QuestionsRepository } from '@/domain/forum/application/repositories/questions-repository'
 import { Question } from '@/domain/forum/enterprise/entities/question'
 import { DateService } from '@/domain/forum/application/services/date-service'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
-export interface CreateQuestionUseCaseRequest {
+interface CreateQuestionUseCaseRequest {
   authorId: string
   title: string
   content: string
 }
 
-export interface CreateQuestionUseCaseResponse {
+interface CreateQuestionUseCaseResponse {
   question: Question
 }
 

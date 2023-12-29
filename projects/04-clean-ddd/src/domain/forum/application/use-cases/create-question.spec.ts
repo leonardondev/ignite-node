@@ -1,32 +1,26 @@
-import { QuestionsRepository } from '@/domain/forum/application/repositories/question-repository'
-import { Question } from '@/domain/forum/enterprise/entities/question'
+import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-question-repository'
+import { DayJsDateService } from 'test/services/dayjs-date-service'
 import { CreateQuestionUseCase } from './create-question'
-import { DateService } from '../services/date-service'
 
-const fakeQuestionsRepository: QuestionsRepository = {
-  create: async (question: Question) =>
-    new Promise((resolve) => resolve(question)),
-}
+let inMemoryQuestionsRepository: InMemoryQuestionsRepository
+let dateService: DayJsDateService
+let sut: CreateQuestionUseCase
 
-const fakeDateService: DateService = {
-  diffInDays(refDate, targetDate) {
-    console.log({ refDate, targetDate })
-    return 2
-  },
-}
-
-test('create a question', async () => {
-  const createQuestion = new CreateQuestionUseCase(
-    fakeQuestionsRepository,
-    fakeDateService,
-  )
-
-  const { question } = await createQuestion.execute({
-    authorId: '1',
-    title: 'question title 1',
-    content: 'New question content',
+describe('Create Question', () => {
+  beforeEach(() => {
+    inMemoryQuestionsRepository = new InMemoryQuestionsRepository()
+    dateService = new DayJsDateService()
+    sut = new CreateQuestionUseCase(inMemoryQuestionsRepository, dateService)
   })
 
-  expect(question.authorId).toBeTruthy()
-  expect(question.content).toEqual('New question content')
+  it('should be able to create a question', async () => {
+    const { question } = await sut.execute({
+      authorId: '1',
+      title: 'question title 1',
+      content: 'New question content',
+    })
+
+    expect(question.authorId).toBeTruthy()
+    expect(inMemoryQuestionsRepository.items[0].id).toEqual(question.id)
+  })
 })
