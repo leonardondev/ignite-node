@@ -1,4 +1,4 @@
-import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-question-repository'
+import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
 import { DayJsDateService } from 'test/services/dayjs-date-service'
 import { CreateQuestionUseCase } from './create-question'
 
