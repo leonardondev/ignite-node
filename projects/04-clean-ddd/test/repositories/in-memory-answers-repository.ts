@@ -1,3 +1,4 @@
+import { PaginationParams } from '@/core/repositories/pagination-params'
 import { AnswersRepository } from '@/domain/forum/application/repositories/answers-repository'
 import { Answer } from '@/domain/forum/enterprise/entities/answer'
 
@@ -8,6 +9,14 @@ export class InMemoryAnswersRepository implements AnswersRepository {
     return new Promise<Answer | null>((resolve) => {
       resolve(this.items.find((answer) => answer.id.toString() === id) ?? null)
     })
+  }
+
+  findManyByQuestionId(questionId: string, { page }: PaginationParams) {
+    const answers = this.items
+      .filter((answer) => answer.questionId.toString() === questionId)
+      .slice((page - 1) * 20, page * 20)
+
+    return Promise.resolve(answers)
   }
 
   create(answer: Answer): Promise<Answer> {
