@@ -27,6 +27,15 @@ export class InMemoryQuestionsRepository implements QuestionsRepository {
     })
   }
 
+  save(question: Question): Promise<Question> {
+    const itemIndex = this.items.findIndex((item) => item.id === question.id)
+
+    return new Promise<Question>((resolve) => {
+      this.items[itemIndex] = question
+      resolve(question)
+    })
+  }
+
   delete(question: Question): Promise<void> {
     const itemIndex = this.items.findIndex((item) => item.id === question.id)
 
