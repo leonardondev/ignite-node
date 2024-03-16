@@ -7,17 +7,15 @@ export class InMemoryAnswerCommentsRepository
 {
   public items: AnswerComment[] = []
 
-  findById(id: string): Promise<AnswerComment | null> {
-    return new Promise<AnswerComment | null>((resolve) => {
-      resolve(
-        this.items.find(
-          (answerComment) => answerComment.id.toString() === id,
-        ) ?? null,
-      )
-    })
+  async findById(id: string) {
+    const answer = this.items.find(
+      (answerComment) => answerComment.id.toString() === id,
+    )
+
+    return Promise.resolve(answer ?? null)
   }
 
-  findManyByAnswerId(answerId: string, { page }: PaginationParams) {
+  async findManyByAnswerId(answerId: string, { page }: PaginationParams) {
     const answerComments = this.items
       .filter((answerComment) => answerComment.answerId.toString() === answerId)
       .slice((page - 1) * 20, page * 20)
@@ -25,21 +23,18 @@ export class InMemoryAnswerCommentsRepository
     return Promise.resolve(answerComments)
   }
 
-  create(answerComment: AnswerComment): Promise<AnswerComment> {
-    return new Promise<AnswerComment>((resolve) => {
-      this.items.push(answerComment)
-      resolve(answerComment)
-    })
+  async create(answerComment: AnswerComment) {
+    this.items.push(answerComment)
+
+    return Promise.resolve(answerComment)
   }
 
-  delete(answerComment: AnswerComment): Promise<void> {
+  async delete(answerComment: AnswerComment) {
     const itemIndex = this.items.findIndex(
       (item) => item.id === answerComment.id,
     )
+    this.items.splice(itemIndex, 1)
 
-    return new Promise<void>((resolve) => {
-      this.items.splice(itemIndex, 1)
-      resolve()
-    })
+    return Promise.resolve()
   }
 }

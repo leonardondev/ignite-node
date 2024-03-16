@@ -7,17 +7,15 @@ export class InMemoryQuestionCommentsRepository
 {
   public items: QuestionComment[] = []
 
-  findById(id: string): Promise<QuestionComment | null> {
-    return new Promise<QuestionComment | null>((resolve) => {
-      resolve(
-        this.items.find(
-          (questionComment) => questionComment.id.toString() === id,
-        ) ?? null,
-      )
-    })
+  async findById(id: string): Promise<QuestionComment | null> {
+    const questionComment = this.items.find(
+      (questionComment) => questionComment.id.toString() === id,
+    )
+
+    return Promise.resolve(questionComment ?? null)
   }
 
-  findManyByQuestionId(questionId: string, { page }: PaginationParams) {
+  async findManyByQuestionId(questionId: string, { page }: PaginationParams) {
     const questionComments = this.items
       .filter(
         (questionComment) =>
@@ -28,21 +26,18 @@ export class InMemoryQuestionCommentsRepository
     return Promise.resolve(questionComments)
   }
 
-  create(questionComment: QuestionComment): Promise<QuestionComment> {
-    return new Promise<QuestionComment>((resolve) => {
-      this.items.push(questionComment)
-      resolve(questionComment)
-    })
+  async create(questionComment: QuestionComment): Promise<QuestionComment> {
+    this.items.push(questionComment)
+
+    return Promise.resolve(questionComment)
   }
 
-  delete(questionComment: QuestionComment): Promise<void> {
+  async delete(questionComment: QuestionComment): Promise<void> {
     const itemIndex = this.items.findIndex(
       (item) => item.id === questionComment.id,
     )
+    this.items.splice(itemIndex, 1)
 
-    return new Promise<void>((resolve) => {
-      this.items.splice(itemIndex, 1)
-      resolve()
-    })
+    return Promise.resolve()
   }
 }

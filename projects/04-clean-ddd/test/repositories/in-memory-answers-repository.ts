@@ -5,13 +5,13 @@ import { Answer } from '@/domain/forum/enterprise/entities/answer'
 export class InMemoryAnswersRepository implements AnswersRepository {
   public items: Answer[] = []
 
-  findById(id: string): Promise<Answer | null> {
-    return new Promise<Answer | null>((resolve) => {
-      resolve(this.items.find((answer) => answer.id.toString() === id) ?? null)
-    })
+  async findById(id: string): Promise<Answer | null> {
+    const answer = this.items.find((answer) => answer.id.toString() === id)
+
+    return Promise.resolve(answer ?? null)
   }
 
-  findManyByQuestionId(questionId: string, { page }: PaginationParams) {
+  async findManyByQuestionId(questionId: string, { page }: PaginationParams) {
     const answers = this.items
       .filter((answer) => answer.questionId.toString() === questionId)
       .slice((page - 1) * 20, page * 20)
@@ -19,28 +19,23 @@ export class InMemoryAnswersRepository implements AnswersRepository {
     return Promise.resolve(answers)
   }
 
-  create(answer: Answer): Promise<Answer> {
-    return new Promise<Answer>((resolve) => {
-      this.items.push(answer)
-      resolve(answer)
-    })
+  async create(answer: Answer): Promise<Answer> {
+    this.items.push(answer)
+
+    return Promise.resolve(answer)
   }
 
-  save(answer: Answer): Promise<Answer> {
+  async save(answer: Answer): Promise<Answer> {
     const itemIndex = this.items.findIndex((item) => item.id === answer.id)
+    this.items[itemIndex] = answer
 
-    return new Promise<Answer>((resolve) => {
-      this.items[itemIndex] = answer
-      resolve(answer)
-    })
+    return Promise.resolve(answer)
   }
 
-  delete(answer: Answer): Promise<void> {
+  async delete(answer: Answer): Promise<void> {
     const itemIndex = this.items.findIndex((item) => item.id === answer.id)
+    this.items.splice(itemIndex, 1)
 
-    return new Promise<void>((resolve) => {
-      this.items.splice(itemIndex, 1)
-      resolve()
-    })
+    return Promise.resolve()
   }
 }
