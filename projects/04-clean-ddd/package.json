@@ -10,8 +10,8 @@
     "dev": "tsx watch src/server.ts",
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint --fix src --ext .ts",
-    "test": "vitest run --dir src/domain",
-    "test:watch": "vitest --dir src/domain",
+    "test": "vitest run --dir src",
+    "test:watch": "vitest --dir src",
     "test:coverage": "vitest run --dir src --coverage"
   },
   "keywords": [],
