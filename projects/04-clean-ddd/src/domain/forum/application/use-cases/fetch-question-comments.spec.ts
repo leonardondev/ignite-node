@@ -26,31 +26,16 @@ describe('Fetch Question Comments', () => {
       makeQuestionComment({ questionId }),
     )
 
-    const { questionComments } = await sut.execute({
+    const result = await sut.execute({
       questionId: 'question-1',
       page: 1,
     })
 
-    expect(questionComments).toHaveLength(3)
-    expect(questionComments).toEqual([
+    expect(result.value?.questionComments).toHaveLength(3)
+    expect(result.value?.questionComments).toEqual([
       expect.objectContaining({ questionId }),
       expect.objectContaining({ questionId }),
       expect.objectContaining({ questionId }),
     ])
   })
-
-  // it.skip('should be able to fetch paginated question comments', async () => {
-  //   const questionId = new UniqueEntityID('question-1')
-
-  //   for (let i = 1; i <= 22; i++) {
-  //     await inMemoryCommentsRepository.create(makeComment({ questionId }))
-  //   }
-
-  //   const { comments } = await sut.execute({
-  //     questionId: 'question-1',
-  //     page: 2,
-  //   })
-
-  //   expect(comments).toHaveLength(2)
-  // })
 })

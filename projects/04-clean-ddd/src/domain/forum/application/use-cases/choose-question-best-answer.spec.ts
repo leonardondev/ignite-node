@@ -4,6 +4,8 @@ import { makeQuestion } from 'test/factories/make-question'
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
 import { ChooseQuestionBestAnswerUseCase } from './choose-question-best-answer'
+import { NotAllowedError } from './errors/not-allowed-error'
+import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
 let inMemoryAnswersRepository: InMemoryAnswersRepository
@@ -49,21 +51,23 @@ describe('Choose QUestion Best Answer', () => {
     await inMemoryQuestionsRepository.create(question)
     await inMemoryAnswersRepository.create(answer)
 
-    await expect(() =>
-      sut.execute({
-        answerId: answer.id.toString(),
-        authorId: 'author-2',
-      }),
-    ).rejects.toBeInstanceOf(Error)
+    const result = await sut.execute({
+      answerId: answer.id.toString(),
+      authorId: 'author-2',
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(NotAllowedError)
   })
 
   it('should not be able to choose question best answer for unknown answer', async () => {
-    await expect(() =>
-      sut.execute({
-        authorId: new UniqueEntityID().toString(),
-        answerId: new UniqueEntityID().toString(),
-      }),
-    ).rejects.toBeInstanceOf(Error)
+    const result = await sut.execute({
+      authorId: new UniqueEntityID().toString(),
+      answerId: new UniqueEntityID().toString(),
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 
   it('should not be able to choose question best answer for unknown question', async () => {
@@ -73,11 +77,12 @@ describe('Choose QUestion Best Answer', () => {
 
     await inMemoryAnswersRepository.create(answer)
 
-    await expect(() =>
-      sut.execute({
-        authorId: new UniqueEntityID().toString(),
-        answerId: new UniqueEntityID().toString(),
-      }),
-    ).rejects.toBeInstanceOf(Error)
+    const result = await sut.execute({
+      authorId: new UniqueEntityID().toString(),
+      answerId: new UniqueEntityID().toString(),
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 })
