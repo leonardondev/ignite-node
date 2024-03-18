@@ -21,8 +21,38 @@ Design dirigido à domínio
 - Casos de uso
 
 
---
+---
 
 ### Conversação com o Expert sobre um fórum de dúvida
 - Muita dificuldade em saber as dúvidas dos alunos
 - Eu tenho que responser os alunos e eu me perco em quais dúvidas já foram respondidas
+
+
+---
+
+# Conceitos
+
+- Aggregate
+- WatchedList
+
+## Exemplo
+
+- Order -> OrderItem[]
+- Order -> Shipping
+
+-Question -> Attachment[]
+
+### Criação
+
+- Título
+- Conteúdo
+- Anexo (3)
+
+### Edição
+
+- Título
+- Conteúdo
+
+- Adicionar uim novo anexo (create)
+- Remover o segundo anexo que tinha criado previamente (delete)
+- Editar um anexo existente (update)

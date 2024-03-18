@@ -3,11 +3,13 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { QuestionsRepository } from '@/domain/forum/application/repositories/questions-repository'
 import { DateService } from '@/domain/forum/application/services/date-service'
 import { Question } from '@/domain/forum/enterprise/entities/question'
+import { QuestionAttachment } from '../../enterprise/entities/question-attachment'
 
 interface CreateQuestionUseCaseRequest {
   authorId: string
   title: string
   content: string
+  attachmentIds: string[]
 }
 
 type CreateQuestionUseCaseResponse = Either<
@@ -27,6 +29,7 @@ export class CreateQuestionUseCase {
     authorId,
     title,
     content,
+    attachmentIds,
   }: CreateQuestionUseCaseRequest): Promise<CreateQuestionUseCaseResponse> {
     const question = Question.create({
       authorId: new UniqueEntityID(authorId),
@@ -34,6 +37,15 @@ export class CreateQuestionUseCase {
       content,
       dateService: this.dateService,
     })
+
+    const questionAttachments = attachmentIds.map((attachmentId) => {
+      return QuestionAttachment.create({
+        attachmentId: new UniqueEntityID(attachmentId),
+        questionId: question.id,
+      })
+    })
+
+    question.attachments = questionAttachments
 
     await this.questionRepository.create(question)
 
