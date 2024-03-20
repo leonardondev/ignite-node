@@ -9,6 +9,7 @@ Design dirigido à domínio
 - Linguagem ubíqua
 
 - Usuário
+
   - Cliente
   - Fornecedor
   - Vendedor
@@ -20,13 +21,12 @@ Design dirigido à domínio
 - Entidades
 - Casos de uso
 
-
 ---
 
 ### Conversação com o Expert sobre um fórum de dúvida
+
 - Muita dificuldade em saber as dúvidas dos alunos
 - Eu tenho que responser os alunos e eu me perco em quais dúvidas já foram respondidas
-
 
 ---
 
@@ -56,3 +56,29 @@ Design dirigido à domínio
 - Adicionar uim novo anexo (create)
 - Remover o segundo anexo que tinha criado previamente (delete)
 - Editar um anexo existente (update)
+
+---
+
+# Subdomínios
+
+- Core: O que dá dinheiro
+- Supporting; Dá suporte para o core funcionar
+- Generic: Necessários, mas não são tão importante.
+
+## Core
+
+- Compra
+- Catálogo
+- Pagamento
+- Entrega
+- Faturamento
+
+## Supporting
+
+- Estoque
+
+## Generic
+
+- Notificações
+- Promoções
+- Chat
