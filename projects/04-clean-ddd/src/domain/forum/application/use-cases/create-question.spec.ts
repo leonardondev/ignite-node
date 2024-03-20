@@ -28,7 +28,7 @@ describe('Create Question', () => {
       attachmentIds: ['1', '2'],
     })
 
-    expect(result.isRight()).toBeTruthy()
+    expect(result.isRight()).toBe(true)
     expect(inMemoryQuestionsRepository.items[0]).toEqual(result.value?.question)
     expect(
       inMemoryQuestionsRepository.items[0].attachments.currentItems,
