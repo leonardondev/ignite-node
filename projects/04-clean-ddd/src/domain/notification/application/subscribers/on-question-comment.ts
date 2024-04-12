@@ -1,12 +1,12 @@
 import { DomainEvents } from '@/core/events/domain-events'
 import { EventHandler } from '@/core/events/event-handler'
 import { QuestionsRepository } from '@/domain/forum/application/repositories/questions-repository'
-import { AnswerCreatedEvent } from '@/domain/forum/enterprise/events/answer-created-event'
+import { QuestionCommentEvent } from '@/domain/forum/enterprise/events/question-comment-event'
 import { SendNotificationUseCase } from '../use-case/send-notification'
 
-export class OnAnswerCreated implements EventHandler {
+export class OnQuestionComment implements EventHandler {
   constructor(
-    private questionRepository: QuestionsRepository,
+    private questionsRepository: QuestionsRepository,
     private sendNotification: SendNotificationUseCase,
   ) {
     this.setupSubscriptions()
@@ -14,23 +14,25 @@ export class OnAnswerCreated implements EventHandler {
 
   setupSubscriptions(): void {
     DomainEvents.register(
-      this.sendNewAnswerNotification.bind(this),
-      AnswerCreatedEvent.name,
+      this.sendQuestionCommentNotification.bind(this),
+      QuestionCommentEvent.name,
     )
   }
 
-  private async sendNewAnswerNotification({ answer }: AnswerCreatedEvent) {
-    const question = await this.questionRepository.findById(
-      answer.questionId.toValue(),
+  private async sendQuestionCommentNotification({
+    questionComment,
+  }: QuestionCommentEvent) {
+    const question = await this.questionsRepository.findById(
+      questionComment.questionId.toValue(),
     )
 
     if (question) {
       await this.sendNotification.execute({
         recipientId: question.authorId.toString(),
-        title: `Nova resposta em "${question.title
+        title: `Sua pergunta foi comentada.`,
+        content: `Novo comentário em "${question.title
           .substring(0, 20)
           .concat('...')}"`,
-        content: answer.excerpt,
       })
     }
   }

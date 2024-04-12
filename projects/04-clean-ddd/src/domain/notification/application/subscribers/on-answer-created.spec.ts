@@ -51,8 +51,8 @@ describe('On Answer Created', () => {
     const question = makeQuestion()
     const answer = makeAnswer({ questionId: question.id })
 
-    inMemoryQuestionsRepository.create(question)
-    inMemoryAnswersRepository.create(answer)
+    await inMemoryQuestionsRepository.create(question)
+    await inMemoryAnswersRepository.create(answer)
 
     await waitFor(() => {
       expect(sendNotificationExecuteSpy).toHaveBeenCalled()
