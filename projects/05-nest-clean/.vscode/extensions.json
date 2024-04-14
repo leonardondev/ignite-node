@@ -2,6 +2,7 @@
   "recommendations": [
     "pkief.material-icon-theme",
     "dotenv.dotenv-vscode",
-    "dbaeumer.vscode-eslint"
+    "dbaeumer.vscode-eslint",
+    "humao.rest-client"
   ]
 }
