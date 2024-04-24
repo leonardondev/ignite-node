@@ -1,10 +1,6 @@
 import { AuthModule } from '@/infra/auth/auth.module'
 import { envSchema } from '@/infra/env'
-import { AuthenticateController } from '@/infra/http/controllers/authenticate.controller'
-import { CreateAccountController } from '@/infra/http/controllers/create-account.controller'
-import { CreateQuestionController } from '@/infra/http/controllers/create-question.controller'
-import { FetchRecentQuestionsController } from '@/infra/http/controllers/fetch-recent-question.controller'
-import { PrismaService } from '@/infra/prisma/prisma.service'
+import { HttpModule } from '@/infra/http/http.module'
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 
@@ -15,13 +11,7 @@ import { ConfigModule } from '@nestjs/config'
       isGlobal: true,
     }),
     AuthModule,
+    HttpModule,
   ],
-  controllers: [
-    CreateAccountController,
-    AuthenticateController,
-    CreateQuestionController,
-    FetchRecentQuestionsController,
-  ],
-  providers: [PrismaService],
 })
 export class AppModule {}
