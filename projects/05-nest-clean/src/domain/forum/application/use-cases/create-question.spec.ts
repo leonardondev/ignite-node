@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { DayJsDateService } from '@/infra/services/dayjs-date-service'
 import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
-import { DayJsDateService } from 'test/services/dayjs-date-service'
 import { CreateQuestionUseCase } from './create-question'
 
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository

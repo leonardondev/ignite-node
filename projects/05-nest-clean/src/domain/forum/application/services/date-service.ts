@@ -1,3 +1,3 @@
-export interface DateService {
-  diffInDays(refDate: Date, targetDate: Date): number
+export abstract class DateService {
+  abstract diffInDays(refDate: Date, targetDate: Date): number
 }
