@@ -35,7 +35,5 @@ export class CreateQuestionController {
       authorId: userId,
       attachmentIds: [],
     })
-
-    return {}
   }
 }
