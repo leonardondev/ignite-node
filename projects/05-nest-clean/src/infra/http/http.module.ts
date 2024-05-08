@@ -1,3 +1,4 @@
+import { CryptographyModule } from '@/infra/cryptography/cryptography.module'
 import { Module } from '@nestjs/common'
 import { DatabaseModule } from '../database/database.module'
 
@@ -8,11 +9,13 @@ import { FetchRecentQuestionsController } from '@/infra/http/controllers/fetch-r
 import { DayJsDateService } from '@/infra/services/dayjs-date-service'
 
 import { DateService } from '@/domain/forum/application/services/date-service'
+import { AuthenticateStudentUseCase } from '@/domain/forum/application/use-cases/authenticate-student'
 import { CreateQuestionUseCase } from '@/domain/forum/application/use-cases/create-question'
 import { FetchRecentQuestionsUseCase } from '@/domain/forum/application/use-cases/fetch-recent-questions'
+import { RegisterStudentUseCase } from '@/domain/forum/application/use-cases/register-student'
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, CryptographyModule],
   controllers: [
     CreateAccountController,
     AuthenticateController,
@@ -23,6 +26,8 @@ import { FetchRecentQuestionsUseCase } from '@/domain/forum/application/use-case
     { provide: DateService, useClass: DayJsDateService },
     CreateQuestionUseCase,
     FetchRecentQuestionsUseCase,
+    RegisterStudentUseCase,
+    AuthenticateStudentUseCase,
   ],
 })
 export class HttpModule {}

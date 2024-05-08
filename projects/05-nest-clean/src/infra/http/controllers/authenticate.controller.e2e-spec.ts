@@ -38,5 +38,17 @@ describe('Authenticate (E2E)', () => {
     expect(response.body).toEqual({
       access_token: expect.any(String),
     })
+
+    const unauthorizedResponse = await request(app.getHttpServer())
+      .post('/sessions')
+      .send({
+        email: 'johndoe@example.com',
+        password: '987654',
+      })
+
+    expect(unauthorizedResponse.statusCode).toBe(401)
+    expect(unauthorizedResponse.body).not.toEqual({
+      access_token: expect.any(String),
+    })
   })
 })

@@ -35,5 +35,15 @@ describe('Create account (E2E)', () => {
     })
 
     expect(userOnDatabase?.email).toBeTruthy()
+
+    const conflictResponse = await request(app.getHttpServer())
+      .post('/accounts')
+      .send({
+        name: 'John Doe',
+        email: 'johndoe@example.com',
+        password: '123456',
+      })
+
+    expect(conflictResponse.statusCode).toBe(409)
   })
 })
