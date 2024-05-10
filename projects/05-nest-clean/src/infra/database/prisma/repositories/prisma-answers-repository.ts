@@ -3,31 +3,74 @@ import { AnswersRepository } from '@/domain/forum/application/repositories/answe
 import { Answer } from '@/domain/forum/enterprise/entities/answer'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { Injectable } from '@nestjs/common'
+import { PrismaAnswerMapper } from '../mappers/prisma-answer-mapper'
 
 @Injectable()
 export class PrismaAnswersRepository implements AnswersRepository {
   constructor(private prisma: PrismaService) {}
 
-  findById(id: string): Promise<Answer | null> {
-    throw new Error('Method not implemented.')
+  async findById(id: string): Promise<Answer | null> {
+    const answer = await this.prisma.answer.findUnique({
+      where: {
+        id,
+      },
+    })
+
+    if (!answer) {
+      return null
+    }
+
+    return PrismaAnswerMapper.toDomain(answer)
   }
 
-  findManyByQuestionId(
+  async findManyByQuestionId(
     questionId: string,
-    params: PaginationParams,
+    { page }: PaginationParams,
   ): Promise<Answer[]> {
-    throw new Error('Method not implemented.')
+    const answers = await this.prisma.answer.findMany({
+      where: {
+        questionId,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 20,
+      skip: (page - 1) * 20,
+    })
+
+    return answers.map(PrismaAnswerMapper.toDomain)
   }
 
-  create(answer: Answer): Promise<Answer> {
-    throw new Error('Method not implemented.')
+  async create(answer: Answer): Promise<Answer> {
+    const data = PrismaAnswerMapper.toPersistent(answer)
+
+    const createdQuestion = await this.prisma.answer.create({
+      data,
+    })
+
+    return PrismaAnswerMapper.toDomain(createdQuestion)
   }
 
-  save(answer: Answer): Promise<Answer> {
-    throw new Error('Method not implemented.')
+  async save(answer: Answer): Promise<Answer> {
+    const data = PrismaAnswerMapper.toPersistent(answer)
+
+    const updatedAnswer = await this.prisma.answer.update({
+      where: {
+        id: data.id,
+      },
+      data,
+    })
+
+    return PrismaAnswerMapper.toDomain(updatedAnswer)
   }
 
-  delete(answer: Answer): Promise<void> {
-    throw new Error('Method not implemented.')
+  async delete(answer: Answer): Promise<void> {
+    const data = PrismaAnswerMapper.toPersistent(answer)
+
+    await this.prisma.question.delete({
+      where: {
+        id: data.id,
+      },
+    })
   }
 }
