@@ -7,11 +7,13 @@ import { AuthenticateController } from '@/infra/http/controllers/authenticate.co
 import { CreateAccountController } from '@/infra/http/controllers/create-account.controller'
 import { CreateQuestionController } from '@/infra/http/controllers/create-question.controller'
 import { FetchRecentQuestionsController } from '@/infra/http/controllers/fetch-recent-question.controller'
+import { GetQuestionBySlugController } from '@/infra/http/controllers/get-question-by-slug.controller'
 
 import { DateService } from '@/domain/forum/application/services/date-service'
 import { AuthenticateStudentUseCase } from '@/domain/forum/application/use-cases/authenticate-student'
 import { CreateQuestionUseCase } from '@/domain/forum/application/use-cases/create-question'
 import { FetchRecentQuestionsUseCase } from '@/domain/forum/application/use-cases/fetch-recent-questions'
+import { GetQuestionBySlugUseCase } from '@/domain/forum/application/use-cases/get-question-by-slug'
 import { RegisterStudentUseCase } from '@/domain/forum/application/use-cases/register-student'
 
 @Module({
@@ -21,6 +23,7 @@ import { RegisterStudentUseCase } from '@/domain/forum/application/use-cases/reg
     AuthenticateController,
     CreateQuestionController,
     FetchRecentQuestionsController,
+    GetQuestionBySlugController,
   ],
   providers: [
     { provide: DateService, useClass: DayJsDateService },
@@ -28,6 +31,7 @@ import { RegisterStudentUseCase } from '@/domain/forum/application/use-cases/reg
     FetchRecentQuestionsUseCase,
     RegisterStudentUseCase,
     AuthenticateStudentUseCase,
+    GetQuestionBySlugUseCase,
   ],
 })
 export class HttpModule {}
