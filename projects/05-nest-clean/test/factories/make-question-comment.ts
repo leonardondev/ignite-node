@@ -12,14 +12,15 @@ export function makeQuestionComment(
   override: Partial<QuestionCommentProps> = {},
   id?: UniqueEntityID,
 ) {
-  const props = {
-    authorId: new UniqueEntityID(),
-    questionId: new UniqueEntityID(),
-    content: faker.lorem.text(),
-    ...override,
-  }
-
-  const questionComment = QuestionComment.create(props, id)
+  const questionComment = QuestionComment.create(
+    {
+      authorId: new UniqueEntityID(),
+      questionId: new UniqueEntityID(),
+      content: faker.lorem.text(),
+      ...override,
+    },
+    id,
+  )
 
   return questionComment
 }

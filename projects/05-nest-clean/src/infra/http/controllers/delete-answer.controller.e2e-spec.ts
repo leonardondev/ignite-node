@@ -5,48 +5,60 @@ import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
+import { AnswerFactory } from 'test/factories/make-answer'
+import { QuestionFactory } from 'test/factories/make-question'
 import { StudentFactory } from 'test/factories/make-student'
 
-describe('Create question (E2E)', () => {
+describe('Delete answer (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
   let jwt: JwtService
   let studentFactory: StudentFactory
+  let questionFactory: QuestionFactory
+  let answerFactory: AnswerFactory
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [StudentFactory],
+      providers: [StudentFactory, QuestionFactory, AnswerFactory],
     }).compile()
 
     prisma = moduleRef.get(PrismaService)
     jwt = moduleRef.get(JwtService)
     studentFactory = moduleRef.get(StudentFactory)
+    questionFactory = moduleRef.get(QuestionFactory)
+    answerFactory = moduleRef.get(AnswerFactory)
 
     app = moduleRef.createNestApplication()
     await app.init()
   })
 
-  test('[POST] /questions', async () => {
+  test('[DELETE] /answers/:id', async () => {
     const user = await studentFactory.makePrismaStudent()
     const accessToken = jwt.sign({ sub: user.id.toString() })
+    const question = await questionFactory.makePrismaQuestion({
+      authorId: user.id,
+    })
+    const answer = await answerFactory.makePrismaAnswer({
+      authorId: user.id,
+      questionId: question.id,
+    })
+
+    const answerId = answer.id.toString()
 
     const response = await request(app.getHttpServer())
-      .post('/questions')
+      .delete(`/answers/${answerId}`)
       .set('Authorization', `Bearer ${accessToken}`)
-      .send({
-        title: 'New question',
-        content: 'Question content',
-      })
+      .send()
 
-    expect(response.statusCode).toBe(201)
+    expect(response.statusCode).toBe(204)
 
-    const questionOnDatabase = await prisma.question.findFirst({
+    const answerOnDatabase = await prisma.answer.findUnique({
       where: {
-        title: 'New question',
+        id: answerId,
       },
     })
 
-    expect(questionOnDatabase?.title).toBeTruthy()
+    expect(answerOnDatabase).toBeNull()
   })
 })
