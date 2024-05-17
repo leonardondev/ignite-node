@@ -1,6 +1,7 @@
 import { CryptographyModule } from '@/infra/cryptography/cryptography.module'
 import { DatabaseModule } from '@/infra/database/database.module'
 import { DayJsDateService } from '@/infra/services/dayjs-date-service'
+import { StorageModule } from '@/infra/storage/storage.module'
 import { Module } from '@nestjs/common'
 
 import { AnswerQuestionController } from './controllers/answer-question.controller'
@@ -21,6 +22,7 @@ import { FetchQuestionAnswersController } from './controllers/fetch-question-ans
 import { FetchQuestionCommentsController } from './controllers/fetch-question-comments.controller'
 import { FetchRecentQuestionsController } from './controllers/fetch-recent-question.controller'
 import { GetQuestionBySlugController } from './controllers/get-question-by-slug.controller'
+import { UploadAttachmentsController } from './controllers/upload-attachment.controller'
 
 import { DateService } from '@/domain/forum/application/services/date-service'
 import { AnswerQuestionUseCase } from '@/domain/forum/application/use-cases/answer-question'
@@ -41,9 +43,10 @@ import { FetchQuestionCommentsUseCase } from '@/domain/forum/application/use-cas
 import { FetchRecentQuestionsUseCase } from '@/domain/forum/application/use-cases/fetch-recent-questions'
 import { GetQuestionBySlugUseCase } from '@/domain/forum/application/use-cases/get-question-by-slug'
 import { RegisterStudentUseCase } from '@/domain/forum/application/use-cases/register-student'
+import { UploadAndCreateAttachmentUseCase } from '@/domain/forum/application/use-cases/upload-and-create-attachment'
 
 @Module({
-  imports: [DatabaseModule, CryptographyModule],
+  imports: [DatabaseModule, CryptographyModule, StorageModule],
   controllers: [
     CreateAccountController,
     AuthenticateController,
@@ -63,6 +66,7 @@ import { RegisterStudentUseCase } from '@/domain/forum/application/use-cases/reg
     DeleteAnswerCommentController,
     FetchQuestionCommentsController,
     FetchAnswerCommentsController,
+    UploadAttachmentsController,
   ],
   providers: [
     { provide: DateService, useClass: DayJsDateService },
@@ -84,6 +88,7 @@ import { RegisterStudentUseCase } from '@/domain/forum/application/use-cases/reg
     DeleteAnswerCommentUseCase,
     FetchQuestionCommentsUseCase,
     FetchAnswerCommentsUseCase,
+    UploadAndCreateAttachmentUseCase,
   ],
 })
 export class HttpModule {}
