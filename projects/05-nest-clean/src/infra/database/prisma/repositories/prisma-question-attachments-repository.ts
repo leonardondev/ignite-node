@@ -29,4 +29,33 @@ export class PrismaQuestionAttachmentsRepository
       },
     })
   }
+
+  async createMany(questionAttachments: QuestionAttachment[]): Promise<void> {
+    if (questionAttachments.length === 0) {
+      return Promise.resolve()
+    }
+
+    const data =
+      PrismaQuestionAttachmentMapper.toPersistentUpdateMany(questionAttachments)
+
+    await this.prisma.attachment.updateMany(data)
+  }
+
+  async deleteMany(questionAttachments: QuestionAttachment[]): Promise<void> {
+    if (questionAttachments.length === 0) {
+      Promise.resolve()
+    }
+
+    const attachmentIds = questionAttachments.map((attachment) =>
+      attachment.id.toString(),
+    )
+
+    await this.prisma.attachment.deleteMany({
+      where: {
+        id: {
+          in: attachmentIds,
+        },
+      },
+    })
+  }
 }
