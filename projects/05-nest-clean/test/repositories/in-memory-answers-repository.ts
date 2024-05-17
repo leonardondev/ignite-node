@@ -28,6 +28,10 @@ export class InMemoryAnswersRepository implements AnswersRepository {
   async create(answer: Answer): Promise<Answer> {
     this.items.push(answer)
 
+    this.answerAttachmentsRepository.createMany(
+      answer.attachments.getItems(), // current watched list items
+    )
+
     DomainEvents.dispatchEventsForAggregate(answer.id)
 
     return Promise.resolve(answer)
@@ -36,6 +40,14 @@ export class InMemoryAnswersRepository implements AnswersRepository {
   async save(answer: Answer): Promise<Answer> {
     const itemIndex = this.items.findIndex((item) => item.id === answer.id)
     this.items[itemIndex] = answer
+
+    this.answerAttachmentsRepository.createMany(
+      answer.attachments.getNewItems(), // new watched list items
+    )
+
+    this.answerAttachmentsRepository.deleteMany(
+      answer.attachments.getRemovedItems(), // old watched list items
+    )
 
     DomainEvents.dispatchEventsForAggregate(answer.id)
 

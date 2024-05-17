@@ -14,6 +14,7 @@ import { z } from 'zod'
 
 const editAnswerBodySchema = z.object({
   content: z.string(),
+  attachments: z.array(z.string().uuid()).default([]),
 })
 
 const bodyValidationPipe = new ZodValidationPipe(editAnswerBodySchema)
@@ -32,12 +33,12 @@ export class EditAnswerController {
     @Param('id') answerId: string,
   ) {
     const userId = user.sub
-    const { content } = body
+    const { content, attachments } = body
 
     const result = await this.editAnswer.execute({
       content,
       authorId: userId,
-      attachmentIds: [],
+      attachmentIds: attachments,
       answerId,
     })
 

@@ -17,7 +17,20 @@ export class PrismaAnswerAttachmentMapper {
     )
   }
 
-  static toPersistent() {
-    throw new Error('Method not implemented.')
+  static toPersistentUpdateMany(answerAttachments: AnswerAttachment[]) {
+    const attachmentIds = answerAttachments.map((attachment) =>
+      attachment.attachmentId.toString(),
+    )
+
+    return {
+      where: {
+        id: {
+          in: attachmentIds,
+        },
+      },
+      data: {
+        answerId: answerAttachments[0].answerId.toString(),
+      },
+    }
   }
 }
