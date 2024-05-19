@@ -7,8 +7,10 @@ import { InMemoryAnswerAttachmentsRepository } from 'test/repositories/in-memory
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
 import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
+import { InMemoryStudentsRepository } from 'test/repositories/in-memory-students-repository'
 import { ChooseQuestionBestAnswerUseCase } from './choose-question-best-answer'
 
+let inMemoryStudentsRepository: InMemoryStudentsRepository
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
 let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
 let inMemoryAnswersRepository: InMemoryAnswersRepository
@@ -17,10 +19,12 @@ let sut: ChooseQuestionBestAnswerUseCase
 
 describe('Choose QUestion Best Answer', () => {
   beforeEach(() => {
+    inMemoryStudentsRepository = new InMemoryStudentsRepository()
     inMemoryAnswerAttachmentsRepository =
       new InMemoryAnswerAttachmentsRepository()
     inMemoryAnswersRepository = new InMemoryAnswersRepository(
       inMemoryAnswerAttachmentsRepository,
+      inMemoryStudentsRepository,
     )
     inMemoryQuestionAttachmentsRepository =
       new InMemoryQuestionAttachmentsRepository()

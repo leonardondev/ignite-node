@@ -5,18 +5,22 @@ import { makeAnswer } from 'test/factories/make-answer'
 import { makeAnswerAttachment } from 'test/factories/make-answer-attachment'
 import { InMemoryAnswerAttachmentsRepository } from 'test/repositories/in-memory-answer-attachments-repository'
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
+import { InMemoryStudentsRepository } from 'test/repositories/in-memory-students-repository'
 import { EditAnswerUseCase } from './edit-answer'
 
+let inMemoryStudentsRepository: InMemoryStudentsRepository
 let inMemoryAnswersRepository: InMemoryAnswersRepository
 let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository
 let sut: EditAnswerUseCase
 
 describe('Edit Answer', () => {
   beforeEach(() => {
+    inMemoryStudentsRepository = new InMemoryStudentsRepository()
     inMemoryAnswerAttachmentsRepository =
       new InMemoryAnswerAttachmentsRepository()
     inMemoryAnswersRepository = new InMemoryAnswersRepository(
       inMemoryAnswerAttachmentsRepository,
+      inMemoryStudentsRepository,
     )
     sut = new EditAnswerUseCase(
       inMemoryAnswersRepository,
