@@ -1,3 +1,4 @@
+import { DomainEvents } from '@/core/events/domain-events'
 import { PrismaClient } from '@prisma/client'
 import { config } from 'dotenv'
 import { execSync } from 'node:child_process'
@@ -26,6 +27,7 @@ beforeAll(async () => {
   process.env.DATABASE_URL = databaseURL
 
   // console.log(databaseURL)
+  DomainEvents.shouldRun = false
 
   execSync('npx prisma migrate deploy')
 })

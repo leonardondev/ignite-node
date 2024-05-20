@@ -1,3 +1,4 @@
+import { DomainEvents } from '@/core/events/domain-events'
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { AnswerCommentsRepository } from '@/domain/forum/application/repositories/answer-comments-repository'
 import { AnswerComment } from '@/domain/forum/enterprise/entities/answer-comment'
@@ -72,6 +73,8 @@ export class PrismaAnswerCommentsRepository
     const createdAnswer = await this.prisma.comment.create({
       data,
     })
+
+    DomainEvents.dispatchEventsForAggregate(answerComment.id)
 
     return PrismaAnswerCommentMapper.toDomain(createdAnswer)
   }

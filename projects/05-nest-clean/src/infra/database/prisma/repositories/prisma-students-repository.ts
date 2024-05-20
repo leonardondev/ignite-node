@@ -1,3 +1,4 @@
+import { DomainEvents } from '@/core/events/domain-events'
 import { StudentsRepository } from '@/domain/forum/application/repositories/students-repository'
 import { Student } from '@/domain/forum/enterprise/entities/student'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
@@ -28,6 +29,8 @@ export class PrismaStudentsRepository implements StudentsRepository {
     const createdStudent = await this.prisma.user.create({
       data,
     })
+
+    DomainEvents.dispatchEventsForAggregate(student.id)
 
     return PrismaStudentMapper.toDomain(createdStudent)
   }
