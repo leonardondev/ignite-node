@@ -7,6 +7,10 @@ export default defineConfig({
     include: ['**/*.e2e-spec.ts'],
     globals: true,
     root: './src',
+    coverage: {
+      reportsDirectory: '../coverage',
+    },
+    reporters: ['verbose'],
     setupFiles: ['./test/setup-e2e.ts'],
     bail: 1,
   },

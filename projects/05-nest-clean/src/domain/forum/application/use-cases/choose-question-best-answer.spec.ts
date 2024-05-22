@@ -19,7 +19,7 @@ let inMemoryAnswersRepository: InMemoryAnswersRepository
 let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository
 let sut: ChooseQuestionBestAnswerUseCase
 
-describe('Choose QUestion Best Answer', () => {
+describe('Choose Question Best Answer', () => {
   beforeEach(() => {
     inMemoryStudentsRepository = new InMemoryStudentsRepository()
     inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository()

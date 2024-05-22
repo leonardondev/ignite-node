@@ -6,6 +6,10 @@ export default defineConfig({
   test: {
     globals: true,
     root: './src',
+    coverage: {
+      reportsDirectory: '../coverage',
+    },
+    reporters: ['default'],
   },
   plugins: [
     // This is required to build the test files with SWC
